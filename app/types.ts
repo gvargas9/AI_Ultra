@@ -2,16 +2,11 @@ export type ConnectionState = 'new' | 'connecting' | 'connected' | 'disconnected
 
 export interface Message {
   id: string;
-  type: 'user' | 'assistant';
-  text: string;
+  role: 'user' | 'assistant';
+  type: 'text' | 'image' | 'video' | 'audio';
+  text?: string;
+  content?: string;
   partial?: boolean;
-  delta?: boolean;
-  sqlResult?: any;
-  visualization?: {
-    type: string;
-    title: string;
-    formattedText: string;
-  };
 }
 
 export interface DebugInfo {
