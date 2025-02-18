@@ -234,7 +234,7 @@ export default function Home() {
         height: '100vh',
         position: 'relative'
       }}>
-        <MessageList messages={messages} />
+        {messages && <MessageList messages={messages} />}
         <div style={{ 
           position: 'fixed',
           bottom: '20px',

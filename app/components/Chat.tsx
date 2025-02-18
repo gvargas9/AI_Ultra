@@ -11,7 +11,8 @@ export const Chat: React.FC<ChatProps> = ({ onSendMessage }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (message.trim()) {
-      onSendMessage(message);
+      onSendMessage(message.trim());
+      setMessage('');
       try {
         const response = await fetch('/api/sql', {
           method: 'POST',
