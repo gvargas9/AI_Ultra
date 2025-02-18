@@ -70,12 +70,12 @@ export default function Home() {
       fontFamily: "'Inter', sans-serif",
     }}>
       <Background />
-      
+
       {/* Logo */}
       <div style={{
         position: 'fixed',
         top: '1rem',
-        left: '3rem',
+        left: '0',
         width: '150px',
         height: '80px',
         transition: 'opacity 0.2s ease-out',
@@ -132,7 +132,7 @@ export default function Home() {
             <MessageList messages={messages} />
           </div>
         </div>
-        
+
         {currentVisualization && (
           <div style={{
             width: '45%',
