@@ -228,21 +228,38 @@ export default function Home() {
           </div> */}
         </div>
 
-        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-        <MicButton 
-          isMicActive={isMicActive}
-          isProcessing={isProcessing}
-          onClick={handleMicToggle}
-          hasMessages={messages.length > 0}
-          lastMessageIsAssistant={messages.length > 0 && messages[messages.length - 1].type === 'assistant'}
-          isMuted={isMuted}
-          onMuteToggle={toggleMute}
-        />
+        <div style={{ 
+        display: 'flex', 
+        flexDirection: 'column',
+        height: '100vh',
+        position: 'relative'
+      }}>
+        <MessageList messages={messages} />
+        <div style={{ 
+          position: 'fixed',
+          bottom: '20px',
+          left: '0',
+          right: '0',
+          display: 'flex',
+          justifyContent: 'center',
+          gap: '1rem',
+          padding: '0 1rem'
+        }}>
+          <MicButton 
+            isMicActive={isMicActive}
+            isProcessing={isProcessing}
+            onClick={handleMicToggle}
+            hasMessages={messages.length > 0}
+            lastMessageIsAssistant={messages.length > 0 && messages[messages.length - 1].type === 'assistant'}
+            isMuted={isMuted}
+            onMuteToggle={toggleMute}
+          />
+          <Chat onSendMessage={(message) => {
+            const newMessage = { id: String(Date.now()), type: 'user', text: message };
+            setMessages([...messages, newMessage]);
+          }} />
+        </div>
       </div>
-      <Chat onSendMessage={(message) => {
-        const newMessage = { id: String(Date.now()), type: 'user', text: message };
-        messages.push(newMessage);
-      }} />
       </div>
 
       <script
