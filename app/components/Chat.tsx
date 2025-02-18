@@ -42,10 +42,14 @@ export const Chat: React.FC<ChatProps> = ({ onSendMessage }) => {
       left: '50%',
       transform: 'translateX(-50%)',
       width: '90%',
-      maxWidth: '600px',
+      maxWidth: '800px',
       display: 'flex',
       gap: '1rem',
       zIndex: 100,
+      backgroundColor: 'rgba(64, 65, 79, 0.9)',
+      padding: '0.75rem',
+      borderRadius: '1rem',
+      boxShadow: '0 0 15px rgba(0,0,0,0.2)',
     }}>
       <input
         type="text"
