@@ -9,6 +9,7 @@ import DataVisualization from './components/DataVisualization';
 import { useAIVoiceChat } from './hooks/useAIVoiceChat';
 
 export default function Home() {
+  const [localMessages, setLocalMessages] = useState([]);
   const {
     isMicActive,
     isProcessing,
@@ -256,7 +257,7 @@ export default function Home() {
           />
           <Chat onSendMessage={(message) => {
             const newMessage = { id: String(Date.now()), type: 'user', text: message };
-            setMessages([...messages, newMessage]);
+            setLocalMessages([...localMessages, newMessage]);
           }} />
         </div>
       </div>
