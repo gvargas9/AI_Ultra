@@ -123,18 +123,18 @@ export function useAIVoiceChat() {
         try {
           // Connect to AI provider
           await aiProvider.current.connect();
-          
+
           // Wait for connection to be established
           const connectionTimeout = 10000; // 10 seconds timeout
           const startTime = Date.now();
-          
+
           while (Date.now() - startTime < connectionTimeout) {
             if (aiProvider.current.isConnected()) {
               break;
             }
             await new Promise(resolve => setTimeout(resolve, 100));
           }
-          
+
           if (!aiProvider.current.isConnected()) {
             throw new Error('Connection timeout - connection not established');
           }
@@ -159,14 +159,14 @@ export function useAIVoiceChat() {
       // Initialize audio to get user permission
       await audioService.current.initialize();
       const stream = audioService.current.getStream();
-      
+
       if (!stream) {
         throw new Error('Failed to get audio stream');
       }
 
       currentStreamRef.current = stream;
       const audioTrack = stream.getAudioTracks()[0];
-      
+
       if (!audioTrack) {
         throw new Error('No audio track available');
       }
@@ -226,7 +226,7 @@ export function useAIVoiceChat() {
     if (currentVisualization) {
       fadeTimeout = setTimeout(() => {
         setIsVisualizationFading(true);
-        
+
         removeTimeout = setTimeout(() => {
           setCurrentVisualization(null);
           setIsVisualizationFading(false);
@@ -239,6 +239,18 @@ export function useAIVoiceChat() {
       clearTimeout(removeTimeout);
     };
   }, [currentVisualization]);
+
+  useEffect(() => {
+    const handleNewMessage = (event: CustomEvent) => {
+      setMessages(prev => [...prev, event.detail]);
+    };
+
+    window.addEventListener('add-message', handleNewMessage as EventListener);
+    return () => {
+      window.removeEventListener('add-message', handleNewMessage as EventListener);
+    };
+  }, []);
+
 
   return {
     isMicActive,

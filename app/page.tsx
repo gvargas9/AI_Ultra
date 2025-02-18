@@ -240,20 +240,22 @@ export default function Home() {
         />
       </div>
       <Chat onSendMessage={(message) => {
-        setMessages(prev => [...prev, { id: String(Date.now()), type: 'user', text: message }]);
-      }} />
-
-      {/* WebSocket listener */}
-      <script dangerouslySetInnerHTML={{
-        __html: `
-          const socket = new WebSocket('wss://${process.env.NEXT_PUBLIC_WEBSOCKET_URL}');
-          socket.onmessage = (event) => {
-            const message = JSON.parse(event.data);
-            window.dispatchEvent(new CustomEvent('n8n-message', { detail: message }));
-          };
-        `
+        const newMessage = { id: String(Date.now()), type: 'user', text: message };
+        messages.push(newMessage);
       }} />
       </div>
+
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.addEventListener('n8n-message', (event) => {
+              const message = event.detail;
+              const newMessage = { id: String(Date.now()), type: 'assistant', text: message.text };
+              window.dispatchEvent(new CustomEvent('add-message', { detail: newMessage }));
+            });
+          `
+        }}
+      />
 
       {debugInfo.lastError && (
         <div style={{
