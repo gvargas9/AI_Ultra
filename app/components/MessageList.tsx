@@ -42,6 +42,9 @@ export const MessageList: React.FC<MessageListProps> = ({ messages }) => {
       display: 'flex',
       flexDirection: 'column',
       gap: '1.5rem',
+      backgroundColor: 'white',
+      borderRadius: '1rem',
+      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
     }}>
       {messages.map((message) => (
         <div 
@@ -74,7 +77,7 @@ export const MessageList: React.FC<MessageListProps> = ({ messages }) => {
             <div style={{
               fontSize: '1rem',
               lineHeight: '1.5',
-              color: '#ececf1',
+              color: '#333',
               whiteSpace: 'pre-wrap',
             }}>
               {renderMessageContent(message)}
