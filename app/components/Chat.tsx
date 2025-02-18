@@ -8,11 +8,30 @@ interface ChatProps {
 export const Chat: React.FC<ChatProps> = ({ onSendMessage }) => {
   const [message, setMessage] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (message.trim()) {
       onSendMessage(message);
-      setMessage('');
+      try {
+        const response = await fetch('/api/sql', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            query: message,
+            sessionId: Date.now()
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to send message to N8N');
+        }
+
+        setMessage('');
+      } catch (error) {
+        console.error('Error sending message:', error);
+      }
     }
   };
 

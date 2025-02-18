@@ -241,7 +241,17 @@ export default function Home() {
       </div>
       <Chat onSendMessage={(message) => {
         setMessages(prev => [...prev, { id: String(Date.now()), type: 'user', text: message }]);
-        // You can add your message handling logic here
+      }} />
+
+      {/* WebSocket listener */}
+      <script dangerouslySetInnerHTML={{
+        __html: `
+          const socket = new WebSocket('wss://${process.env.NEXT_PUBLIC_WEBSOCKET_URL}');
+          socket.onmessage = (event) => {
+            const message = JSON.parse(event.data);
+            window.dispatchEvent(new CustomEvent('n8n-message', { detail: message }));
+          };
+        `
       }} />
       </div>
 
