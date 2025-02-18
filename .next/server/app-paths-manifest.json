@@ -1,5 +1,4 @@
 {
   "/page": "app/page.js",
-  "/api/websocket/route": "app/api/websocket/route.js",
   "/api/sql/route": "app/api/sql/route.js"
 }
