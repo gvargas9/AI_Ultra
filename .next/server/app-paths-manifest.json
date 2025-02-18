@@ -1,4 +1,3 @@
 {
-  "/page": "app/page.js",
-  "/api/ultravox-call/route": "app/api/ultravox-call/route.js"
+  "/page": "app/page.js"
 }
