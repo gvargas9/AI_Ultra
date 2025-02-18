@@ -1,29 +1,43 @@
 
-import { WebSocketServer } from 'ws';
 import { NextApiRequest } from 'next';
 import { NextApiResponseServerIO } from '../../types';
+import { WebSocketHandler } from 'next/dist/compiled/@edge-runtime/primitives';
 
-const wss = new WebSocketServer({ port: 3001 });
-
-wss.on('connection', (ws) => {
-  console.log('Client connected');
+export function GET(req: Request) {
+  const { socket: res } = new WebSocketHandler();
   
-  ws.on('close', () => {
-    console.log('Client disconnected');
-  });
-});
+  if (res) {
+    res.onopen = () => {
+      console.log('Client connected');
+    };
 
-export default function handler(req: NextApiRequest, res: NextApiResponseServerIO) {
-  if (req.method === 'POST') {
-    const message = req.body;
-    
-    // Broadcast to all connected clients
-    wss.clients.forEach((client) => {
-      client.send(JSON.stringify(message));
-    });
+    res.onclose = () => {
+      console.log('Client disconnected');
+    };
 
-    res.status(200).json({ message: 'Message sent successfully' });
-  } else {
-    res.status(405).json({ message: 'Method not allowed' });
+    res.onmessage = (event) => {
+      const message = JSON.parse(event.data);
+      // Broadcast to all connected clients
+      res.send(JSON.stringify(message));
+    };
+
+    return res;
+  }
+
+  return new Response('WebSocket endpoint', { status: 200 });
+}
+
+export async function POST(req: Request) {
+  try {
+    const message = await req.json();
+    // Send message to connected WebSocket clients
+    if (WebSocketHandler.clients) {
+      WebSocketHandler.clients.forEach((client) => {
+        client.send(JSON.stringify(message));
+      });
+    }
+    return new Response('Message sent successfully', { status: 200 });
+  } catch (error) {
+    return new Response('Error sending message', { status: 500 });
   }
 }
