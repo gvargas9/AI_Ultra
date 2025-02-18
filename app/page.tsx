@@ -103,7 +103,7 @@ export default function Home() {
         animation: 'titleGlow 2s ease-in-out infinite',
         textAlign: 'center',
         marginTop: '0.1rem',
-      }}>Data Analytics Assistant</h1>
+      }}>SQL Voice Agent</h1>
 
       <div style={{
         position: 'relative',

@@ -4,7 +4,7 @@ import type { Metadata } from 'next'
 const inter = Inter({ subsets: ['latin'] })
  
 export const metadata: Metadata = {
-  title: 'Data Analytics Assistant',
+  title: 'SQL Voice Agent',
   description: 'A realtime application using OpenAI, Ultravox and WebRTC',
 }
  
