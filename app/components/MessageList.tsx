@@ -36,9 +36,17 @@ export const MessageList: React.FC<MessageListProps> = ({ messages }) => {
       <style>{keyframes}</style>
       <div style={{
         ...styles.responseContainer,
-        maxHeight: '60vh',
+        height: 'calc(100vh - 180px)',
         overflowY: 'auto',
-        padding: '1rem'
+        padding: '1rem',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '1rem',
+        position: 'fixed',
+        top: '20px',
+        left: '0',
+        right: '0',
+        bottom: '100px',
       }}>
         {messages.map((message) => (
           <div 
@@ -46,7 +54,8 @@ export const MessageList: React.FC<MessageListProps> = ({ messages }) => {
             style={{
               ...styles.messageContainer,
               ...(message.role === 'assistant' ? styles.assistantMessage : styles.userMessage),
-              marginBottom: '1rem'
+              marginBottom: '0.5rem',
+              opacity: 1,
             }}
           >
             {renderMessageContent(message)}
