@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { MicButton } from './components/MicButton';
 import { MessageList } from './components/MessageList';
 import { Background } from './components/Background';
+import { Chat } from './components/Chat';
 import DataVisualization from './components/DataVisualization';
 import { useAIVoiceChat } from './hooks/useAIVoiceChat';
 
@@ -227,6 +228,7 @@ export default function Home() {
           </div> */}
         </div>
 
+        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
         <MicButton 
           isMicActive={isMicActive}
           isProcessing={isProcessing}
@@ -236,6 +238,11 @@ export default function Home() {
           isMuted={isMuted}
           onMuteToggle={toggleMute}
         />
+      </div>
+      <Chat onSendMessage={(message) => {
+        setMessages(prev => [...prev, { id: String(Date.now()), type: 'user', text: message }]);
+        // You can add your message handling logic here
+      }} />
       </div>
 
       {debugInfo.lastError && (
